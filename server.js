@@ -2,7 +2,7 @@ const express = require('express')
 const mongo = require('mongodb').MongoClient
 const url = "mongodb://localhost:27017"
 
-conat app = express()
+const app = express()
 let db
 mongo.connect(
     url,
