@@ -50,7 +50,8 @@ app.get("/trips", (req, res) => {
 });
 
 app.post("/expense", (req, res) => {
-    expenses.insertOne({
+    expenses.insertOne(
+        {
         trip: req.body.trip,
         date: req.body.date,
         amount: req.body.amount,
@@ -59,16 +60,24 @@ app.post("/expense", (req, res) => {
     },
         (err, result) => {
             if (err) {
-                console.err(err)
+                console.error(err)
                 res.status(500).json({ err: err })
+                return
             }
-            resizeTo.status(200).json({ ok: true })
+            res.status(200).json({ ok: true })
         }
     )
 });
 
 app.get("/expenses", (req, res) => {
-  /* */
+    expenses.find({ trip: req.body.trip }).toArray((err, items) => {
+        if (err) {
+            console.error(err)
+            res.status(500).json({ err: err })
+            return
+        }
+        res.status(200).json({ trips: items })
+    })
 });
 
 app.listen(3000, () => console.log("Server is ready Captain!"))
